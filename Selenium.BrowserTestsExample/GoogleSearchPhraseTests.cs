@@ -1,12 +1,11 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using System.Threading;
 using Xunit;
 
 namespace Selenium.BrowserTestsExample {
-    public class Class1 {
+    public class GoogleSearchPhraseTests {
         IWebDriver driver;
-        public Class1() {
+        public GoogleSearchPhraseTests() {
             driver = new ChromeDriver();
             driver.Url = @"https://www.google.pl/";
         }
