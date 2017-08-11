@@ -5,7 +5,9 @@ using Xunit;
 
 namespace Selenium.BrowserTestsExample {
     public class GoogleSearchPhraseTests {
+
         SearchPage searchPageUnderTest;
+
         public GoogleSearchPhraseTests() {
             searchPageUnderTest = Threaded<Session>
                                 .With<Chrome>()
