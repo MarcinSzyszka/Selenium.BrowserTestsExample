@@ -1,29 +1,29 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+﻿using Bumblebee.Setup;
+using Bumblebee.Setup.DriverEnvironments;
+using Selenium.BrowserTestsExample.POM;
 using Xunit;
 
 namespace Selenium.BrowserTestsExample {
     public class GoogleSearchPhraseTests {
-        IWebDriver driver;
+        SearchPage searchPageUnderTest;
         public GoogleSearchPhraseTests() {
-            driver = new ChromeDriver();
-            driver.Url = @"https://www.google.pl/";
+            searchPageUnderTest = Threaded<Session>
+                                .With<Chrome>()
+                                .NavigateTo<SearchPage>(@"https://www.google.pl/");
         }
 
         [Fact]
         public void Test() {
-            //Arrange
-            var searchElement = driver.FindElement(By.XPath(@"//*[@id=""lst-ib""]"));
-            var searchButton = driver.FindElement(By.XPath(@"//*[@id=""tsf""]/div[2]/div[3]/center/input[1]"));
-
             //Act
-            searchElement.SendKeys("Selenium");
-            searchButton.Submit();
-            var firstResultAddress = driver.FindElement(By.XPath(@"//*[@id=""rso""]/div[2]/div/div[1]/div/div/div/div/div[1]/cite"));
+            searchPageUnderTest.SearchInput.AppendText("Selenium");
+            searchPageUnderTest.SearchButton.Tag.Submit();
+            var firstResultAddress = searchPageUnderTest.FirstResultAddress.Tag.Text;
 
             //Assert
-            Assert.Equal("www.seleniumhq.org/", firstResultAddress.Text);
-            driver.Close();
+            Assert.Equal("www.seleniumhq.org/", firstResultAddress);
+
+            Threaded<Session>
+             .End();
         }
     }
 }
